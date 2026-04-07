@@ -63,10 +63,7 @@ services:
 
   vite:
     <<: *base
-    build:
-      context: .
-      dockerfile: ./docker/dockerfiles/vite.Dockerfile
-    image: chatwoot-vite:development
+    image: chatwoot-rails:development
     volumes:
       - ./:/app:delegated
       - node_modules:/app/node_modules
@@ -80,7 +77,7 @@ services:
       - NODE_ENV=development
       - RAILS_ENV=development
     entrypoint: docker/entrypoints/vite.sh
-    command: bin/vite dev
+    command: bundle exec vite dev
 
   postgres:
     image: pgvector/pgvector:pg16
@@ -92,7 +89,7 @@ services:
     environment:
       - POSTGRES_DB=chatwoot
       - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=
+      - POSTGRES_PASSWORD=postgres
 
   redis:
     image: redis:alpine
